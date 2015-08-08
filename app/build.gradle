@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+def TWITTER_CONSUMER_KEY = TwitterConsumerKey;
+def TWITTER_CONSUMER_SECRET = TwitterConsumerSecret;
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "io.github.ipavl.signinwithtwitter"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.buildTypes.each { type ->
+        type.buildConfigField 'String', 'TWITTER_CONSUMER_KEY', TWITTER_CONSUMER_KEY
+        type.buildConfigField 'String', 'TWITTER_CONSUMER_SECRET', TWITTER_CONSUMER_SECRET
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+}
+
+buildscript {
+    ext.kotlin_version = '0.12.1218'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
